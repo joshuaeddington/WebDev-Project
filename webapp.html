@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish Vocabulary Quiz - Joshua Eddington</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .quiz-container { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 90%; }
+        h1 { color: #2c3e50; }
+        #word-display { font-size: 2.5rem; margin: 20px 0; color: #007bff; font-weight: bold; }
+        input[type="text"] { width: 80%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 1rem; margin-bottom: 20px; outline: none; }
+        button { background-color: #28a745; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: bold; }
+        button:hover { background-color: #218838; }
+        #feedback { margin-top: 20px; font-weight: bold; height: 24px; }
+        .score { margin-top: 20px; color: #6c757d; }
+        .nav-link { margin-top: 30px; text-decoration: none; color: #007bff; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <h1>Spanish Quiz</h1>
+        <p>Translate the following word to English:</p>
+        <div id="word-display">Cargando...</div>
+        <input type="text" id="answer-input" placeholder="Type answer here..." autocomplete="off">
+        <br>
+        <button onclick="checkAnswer()">Submit Answer</button>
+        <div id="feedback"></div>
+        <div class="score">Score: <span id="score-val">0</span></div>
+    </div>
+
+    <a href="index.html" class="nav-link">← Back to Portfolio</a>
+
+    <script>
+        const words = [
+            { spanish: "Hermano", english: "brother" },
+            { spanish: "Verdad", english: "truth" },
+            { spanish: "Escrituras", english: "scriptures" },
+            { spanish: "Fe", english: "faith" },
+            { spanish: "Arrepentimiento", english: "repentance" },
+            { spanish: "Bautismo", english: "baptism" },
+            { spanish: "Oración", english: "prayer" }
+        ];
+
+        let currentIndex = 0;
+        let score = 0;
+
+        function displayWord() {
+            document.getElementById('word-display').innerText = words[currentIndex].spanish;
+            document.getElementById('answer-input').value = "";
+            document.getElementById('feedback').innerText = "";
+        }
+
+        function checkAnswer() {
+            const userInput = document.getElementById('answer-input').value.trim().toLowerCase();
+            const correctAnswer = words[currentIndex].english.toLowerCase();
+            const feedback = document.getElementById('feedback');
+
+            if (userInput === correctAnswer) {
+                score++;
+                feedback.style.color = "#28a745";
+                feedback.innerText = "¡Correcto!";
+                document.getElementById('score-val').innerText = score;
+                
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % words.length;
+                    displayWord();
+                }, 1000);
+            } else {
+                feedback.style.color = "#dc3545";
+                feedback.innerText = "Try again!";
+            }
+        }
+
+        // Allow "Enter" key to submit
+        document.getElementById('answer-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        displayWord();
+    </script>
+</body>
+</html>
